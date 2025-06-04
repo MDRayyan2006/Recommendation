@@ -12,25 +12,25 @@ def get_video_data_from_html(html):
     soup = BeautifulSoup(html, 'html.parser')
     video_list = []
 
-    # Find the <script> tag with ytInitialData
+    #ytInitialData script find kartha
     yt_data_script = None
     for script in soup.find_all('script'):
         if 'var ytInitialData =' in script.text:
             yt_data_script = script.string
             break
     if not yt_data_script:
-        return video_list  # no data found
+        return video_list  # no data 
 
-    # Extract JSON data
+   
     json_text = yt_data_script.split('var ytInitialData =',1)[1].rsplit(';',1)[0].strip()
     data = json.loads(json_text)
 
-    # Navigate to videoRenderer contents
+   #content ata
     try:
         contents = data['contents']['twoColumnSearchResultsRenderer']['primaryContents']\
             ['sectionListRenderer']['contents'][0]['itemSectionRenderer']['contents']
     except (KeyError, IndexError):
-        return video_list  # structure changed or no videos
+        return video_list 
 
     for item in contents:
         if 'videoRenderer' in item:
@@ -41,7 +41,7 @@ def get_video_data_from_html(html):
             url = f"https://www.youtube.com/watch?v={video_id}"
             thumbnail = f"https://img.youtube.com/vi/{video_id}/hqdefault.jpg"
 
-            # Add video data dict
+            # video data ka dict banta
             video_list.append({
                 'title': title,
                 'link': url,
