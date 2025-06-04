@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Fox Tail</title>
+  
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <div class="logo-title">
+      <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" class="logo" />
+      <h1>Foxtail</h1>
+    </div>
+   
+
+
+  </header>
+  <div id="loading-spinner" class="spinner hidden"></div>
+  <header>
+ 
+
+
+  <main>
+    <form method="POST" action="/" class="search-form">
+      <input type="text" name="query" placeholder="Search videos..." required />
+      <button type="submit">Search</button>
+    </form>
+  </main>
+  <!-- 🧠 Spinner + Theme Toggle Logic -->
+  <script>
+    const form = document.querySelector('.search-form');
+    const spinner = document.getElementById('loading-spinner');
+    const themeSwitch = document.getElementById('themeSwitch');
+    const isDark = localStorage.getItem('theme') === 'dark';
+
+    if (isDark) {
+      document.body.classList.remove('light-mode');
+      themeSwitch.checked = false;
+    } else {
+      document.body.classList.add('light-mode');
+      themeSwitch.checked = true;
+    }
+
+    themeSwitch.addEventListener('change', () => {
+      if (themeSwitch.checked) {
+        document.body.classList.add('light-mode');
+        localStorage.setItem('theme', 'light');
+      } else {
+        document.body.classList.remove('light-mode');
+        localStorage.setItem('theme', 'dark');
+      }
+    });
+
+    form.addEventListener('submit', () => {
+      spinner.classList.remove('hidden');
+    });
+  </script>
+
+</body>
+</html>
+
+
+
